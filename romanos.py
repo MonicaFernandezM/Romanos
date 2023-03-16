@@ -14,6 +14,19 @@ valores_romanos = {
     1000: 'M'
 }
 
+simbolos_romanos = {
+    'I': 1, 
+    'V': 5, 
+    'X': 10, 
+    'L': 50, 
+    'C': 100, 
+    'D': 500, 
+    'M': 1000
+}
+
+class RomanError(Exception):
+    pass
+
 def valida_numero(n):
     if not isinstance(n, int):
         raise TypeError("f{n} debe ser de tipo int")
@@ -41,14 +54,32 @@ def arabigo_a_romano(n):
 
 def romano_a_arabigo(cadena):
     resultado = 0
+    cont_repeticiones = 0 
+
     for ix in range(len(cadena)-1):
         letra = cadena[ix]
         siguiente = cadena[ix + 1]
-        if d[letra] >= d[siguiente]:
-            resultado += d[letra]
-        else:
-            resultado -= d[letra]
 
-    resultado += d[len(cadena)-1]
+        #comprobar repeticiones
+        if letra == siguiente: 
+            cont_repeticiones += 1
+        else:
+            cont_repeticiones = 0
+
+        if letra in 'VLD' and cont_repeticiones > 0: #porque letra es una sola, y revisa y si esa letra esta en esa cadena 
+            raise RomanError("Error de sintaxis. Demasiadas repeticiones de {letra}")
+        elif cont_repeticiones > 2: #para el test de cuatro repeticiones Error
+            raise RomanError("Error de sintaxis. Demasiadas repeticiones de {letra}")
+
+
+        if simbolos_romanos[letra] >= simbolos_romanos[siguiente]:
+            resultado += simbolos_romanos[letra]
+        else:
+            if letra in 'VLD': #lo incluimos en el else, porque aqui vemos lo de menor 
+                raise RomanError("Error de sintaxis. {letra} no puede restar")
+            resultado -= simbolos_romanos[letra]
+
+    resultado += simbolos_romanos[cadena[-1]]
+    return resultado 
         
             
