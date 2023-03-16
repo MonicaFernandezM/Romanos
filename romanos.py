@@ -14,25 +14,17 @@ valores_romanos = {
     1000: 'M'
 }
 
-valores_romanosT = [
-    (1000, 'M'),
-    (900, 'CM'),
-    (500, 'D'),
-    (400, 'CD'),
-    (100, 'C'),
-    (90, 'XC'),
-    (50, 'L'),
-    (40, 'XL'),
-    (10, 'X'),
-    (9, 'IX'),
-    (5, 'V'),
-    (4, 'IV'),
-    (1, 'I')
-]
+def valida_numero(n):
+    if not isinstance(n, int):
+        raise TypeError("f{n} debe ser de tipo int")
+    
+    if n <= 0:
+        raise ValueError(f"{n} debe ser un entero positivo")
+    
 
-# 36 -> XXXVI
-def arabigo_a_romano(n): #n = 36
-    romano = '' #se crea en vacio 
+def arabigo_a_romano(n): 
+    valida_numero(n)
+    romano = '' 
     resto = None
 
     while resto != 0: 
@@ -42,8 +34,21 @@ def arabigo_a_romano(n): #n = 36
 
         cociente = n // valor
         resto = n % valor
-    
         romano += cociente * valores_romanos[valor]
         n = resto 
 
     return romano  
+
+def romano_a_arabigo(cadena):
+    resultado = 0
+    for ix in range(len(cadena)-1):
+        letra = cadena[ix]
+        siguiente = cadena[ix + 1]
+        if d[letra] >= d[siguiente]:
+            resultado += d[letra]
+        else:
+            resultado -= d[letra]
+
+    resultado += d[len(cadena)-1]
+        
+            
