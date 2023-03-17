@@ -42,4 +42,18 @@ class RomanosFuncionesAromanoTest(unittest.TestCase):
 
     def test_romano_a_arabigo_tras_repeticion_no_se_resta(self):
         with self.assertRaises(RomanError):
-            romano_a_arabigo('XXL')
+            romano_a_arabigo('XXL') #este tiene que petar
+        
+        self.assertEqual(romano_a_arabigo('XXIII'), 23) #tiene que ir bien
+
+    def test_romano_a_arabigo_restas_prohibidas(self):
+        with self.assertRaises(RomanError):
+            romano_a_arabigo('XM')
+    
+    def test_romano_a_arabigo_simbolos_incorrectos(self):
+        with self.assertRaises(RomanError):
+            romano_a_arabigo('IK')
+        with self.assertRaises(RomanError):
+            romano_a_arabigo('KI')
+        with self.assertRaises(RomanError):
+            romano_a_arabigo('K')
